@@ -1,10 +1,13 @@
-const canvas = document.querySelector('[data-canvas]')
-const context = canvas.getContext('2d')
+const canvas = document.querySelector('[data-canvas]');
+const context = canvas.getContext('2d');
+let canvasWidth = window.innerWidth;
+let canvasHeight = window.innerHeight;
 
-let mouseDown = 0
+const radiansFromDegrees = function(degrees) {
+    return degrees * (Math.PI / 180);
+}
 
-let divisions = 20
-let angle = 360 / divisions
+let mouseDown = 0;
 
 const mouse = {
     x: 0,
@@ -21,87 +24,102 @@ const prevMouse = {
     y: 0
 }
 
-const canvasSize = 1000
+let divisions = 20;
+let angle = 360 / divisions;
+
+let guides = true;
+let mirrorMode = true;
+let particleMode = false;
 
 document.addEventListener('mousedown', () => {
-    ++mouseDown
+    ++mouseDown;
 })
 
 document.addEventListener('mouseup', () => {
-    --mouseDown
+    --mouseDown;
 })
 
 canvas.addEventListener('mousemove', function(event) {
-    mouse.x = event.pageX - this.offsetLeft
-    mouse.y = event.pageY - this.offsetTop
-})
+    mouse.x = event.pageX - this.offsetLeft;
+    mouse.y = event.pageY - this.offsetTop;
+});
 
-const radiansFromDegrees = function(degrees) {
-    return degrees * (Math.PI / 180)
-}
+window.addEventListener('resize', () => {
+    canvasWidth = window.innerWidth;
+    canvasHeight = window.innerHeight;
+
+    setup();
+});
 
 const mouseX = function(canvas, event) {
-    const canvasBorder = canvas.getBoundingClientRect()
+    const canvasBorder = canvas.getBoundingClientRect();
 
-    return event.clientX - canvasBorder.left
+    return event.clientX - canvasBorder.left;
 }
 
 const mouseY = function(canvas, event) {
-    const canvasBorder = canvas.getBoundingClientRect()
+    const canvasBorder = canvas.getBoundingClientRect();
 
-    return event.clientY - canvasBorder.top
+    return event.clientY - canvasBorder.top;
+    console.log(canvasBorder.top);
 }
 
 const setup = function() {
-    canvas.style.width = canvasSize + 'px'
-    canvas.style.height = canvasSize + 'px'
+    canvas.style.width = canvasWidth + 'px';
+    canvas.style.height = canvasHeight + 'px';
 
-    const dpr = window.devicePixelRatio
+    const dpr = window.devicePixelRatio;
       
-    canvas.width = canvasSize * dpr
-    canvas.height = canvasSize * dpr
+    canvas.width = canvasWidth * dpr;
+    canvas.height = canvasHeight * dpr;
 
-    context.scale(dpr, dpr)
+    context.scale(dpr, dpr);
 
-    context.lineWidth = 1
-    context.strokeStyle = '#000000'
+    context.lineWidth = 1;
+    context.strokeStyle = '#000000';
 
-    context.translate(canvasSize / 2, canvasSize / 2)
+    context.translate(canvasWidth / 2, canvasHeight / 2);
 }
 
 const update = function() {
-    requestAnimationFrame(update)
+    requestAnimationFrame(update);
 
-    currentMouse.x = mouse.x
-    currentMouse.y = mouse.y
+    if (particleMode) {
+        context.clearRect(0 - canvasWidth / 2, 0 - canvasHeight / 2, canvasWidth, canvasHeight);
+    }
 
-    const mx = currentMouse.x - canvasSize / 2
-    const my = currentMouse.y - canvasSize / 2
-    const pmx = prevMouse.x - canvasSize / 2
-    const pmy = prevMouse.y - canvasSize / 2
+    currentMouse.x = mouse.x;
+    currentMouse.y = mouse.y;
+
+    const mx = currentMouse.x - canvasWidth / 2;
+    const my = currentMouse.y - canvasHeight / 2;
+    const pmx = prevMouse.x - canvasWidth / 2;
+    const pmy = prevMouse.y - canvasHeight / 2;
 
     if (mouseDown) {
         for (let i = 0; i < divisions; i++) {
-            context.rotate(radiansFromDegrees(angle))
+            context.rotate(radiansFromDegrees(angle));
 
-            context.beginPath()
-            context.moveTo(mx, my)
-            context.lineTo(pmx, pmy)
-            context.stroke()
+            context.beginPath();
+            context.moveTo(mx, my);
+            context.lineTo(pmx, pmy);
+            context.stroke();
 
-            context.save()
-            context.scale(1, -1)
-            context.beginPath()
-            context.moveTo(mx, my)
-            context.lineTo(pmx, pmy)
-            context.stroke()
-            context.restore()
+            if (mirrorMode) {
+                context.save();
+                context.scale(1, -1);
+                context.beginPath();
+                context.moveTo(mx, my);
+                context.lineTo(pmx, pmy);
+                context.stroke();
+                context.restore();
+            }
         }
     }
 
-    prevMouse.x = currentMouse.x
-    prevMouse.y = currentMouse.y
+    prevMouse.x = currentMouse.x;
+    prevMouse.y = currentMouse.y;
 }
 
-setup()
-update()
+setup();
+update();
