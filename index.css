@@ -77,3 +77,23 @@ ul {
     float: right;
     color: var(--colour__mid);
 }
+
+.log {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    overflow: hidden;
+    height: 20rem;
+}
+
+.log__wrapper {
+    height: 100%;
+    overflow-y: scroll;
+    margin-right: -50px;
+    padding-right: 50px;
+}
+
+.log__item {
+    display: block;
+    padding: 0.1rem 0;
+}

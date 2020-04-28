@@ -3,6 +3,39 @@ const context = canvas.getContext('2d');
 let canvasWidth = window.innerWidth;
 let canvasHeight = window.innerHeight;
 
+const getScrollbarWidth = function() {
+    const tempEl = document.createElement('div');
+    tempEl.style.visibility = 'hidden';
+    tempEl.style.overflow = 'scroll';
+  
+    document.body.appendChild(tempEl);
+
+    const tempElChild = document.createElement('div');
+    tempEl.appendChild(tempElChild);
+
+    const scrollbarWidth = (tempEl.offsetWidth - tempElChild.offsetWidth);
+
+    temEl.parentNode.removeChild(temEl);
+
+    return scrollbarWidth;
+}
+
+const log = document.querySelector('[data-log]');
+log.style.paddingRight = getScrollbarWidth + 'px'
+let itemsLogged = 0
+
+const toLog = function(logMessage) {
+    itemsLogged += 1
+
+    const logItem = document.createElement('span');
+    logItem.classList.add('log__item')
+
+    logItem.textContent = `${itemsLogged}: ${logMessage}`;
+    
+    log.appendChild(logItem);
+    log.scrollTop = log.scrollHeight
+}
+
 const radiansFromDegrees = function(degrees) {
     return degrees * (Math.PI / 180);
 }
@@ -33,8 +66,6 @@ let particleMode = false;
 
 document.addEventListener('mousedown', () => {
     ++mouseDown;
-
-    actions.push({x: mx, y: my, px: pmx, py: pmy});
 })
 
 document.addEventListener('mouseup', () => {
@@ -53,6 +84,12 @@ window.addEventListener('resize', () => {
     setup();
 });
 
+document.addEventListener('keydown', (event) => {
+    console.log(event)
+
+    toLog(`Press ${event.code}`)
+})
+
 const mouseX = function(canvas, event) {
     const canvasBorder = canvas.getBoundingClientRect();
 
@@ -63,7 +100,6 @@ const mouseY = function(canvas, event) {
     const canvasBorder = canvas.getBoundingClientRect();
 
     return event.clientY - canvasBorder.top;
-    console.log(canvasBorder.top);
 }
 
 const setup = function() {
