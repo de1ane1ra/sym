@@ -1,9 +1,79 @@
+:root {
+    --colour__light: #FFFFFF;
+    --colour__mid-light: #BFBFBF;
+    --colour__mid: #7F7F7F;
+    --colour__dark: #000000;
+}
+
 html {
     height: 100vh;
+    font-size: 10px;
+    cursor: crosshair;
 }
 
 body {
     width: 100%;
     height: 100%;
     margin: 0;
+    font-family: courier, monospace;
+    font-size: 1.2rem;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav {
+    background-color: var(--colour__light);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--colour__dark);
+    padding: 0rem 1rem;
+    user-select: none;
+}
+
+.controls__dropdown {
+    display: inline-block;
+    padding: 0.5rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.controls__dropdown:hover,
+.controls__drowndown:active,
+.controls__drowndown:focus {
+    color: var(--colour__light);
+    background-color: var(--colour__dark);
+    cursor: pointer;
+}
+
+.controls__dropdown:hover .controls__dropdown-options {
+    display: block;
+}
+
+.controls__dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    color: var(--colour__dark);
+    background-color: var(--colour__light);
+}
+
+.controls__dropdown-option {
+    display: block;
+    width: 15rem;
+    padding: 0.5rem;
+}
+
+.controls__dropdown-option:hover {
+    background-color: var(--colour__mid-light);
+}
+
+.controls__input {
+    float: right;
+    color: var(--colour__mid);
 }

@@ -24,15 +24,17 @@ const prevMouse = {
     y: 0
 }
 
-let divisions = 20;
+let divisions = 24;
 let angle = 360 / divisions;
 
 let guides = true;
-let mirrorMode = true;
+let mirrorMode = false;
 let particleMode = false;
 
 document.addEventListener('mousedown', () => {
     ++mouseDown;
+
+    actions.push({x: mx, y: my, px: pmx, py: pmy});
 })
 
 document.addEventListener('mouseup', () => {
@@ -81,6 +83,8 @@ const setup = function() {
     context.translate(canvasWidth / 2, canvasHeight / 2);
 }
 
+let actions = [];
+
 const update = function() {
     requestAnimationFrame(update);
 
@@ -97,20 +101,24 @@ const update = function() {
     const pmy = prevMouse.y - canvasHeight / 2;
 
     if (mouseDown) {
-        for (let i = 0; i < divisions; i++) {
-            context.rotate(radiansFromDegrees(angle));
+        actions.push({x: mx, y: my, px: pmx, py: pmy});
+    }
 
+    for (let i = 0; i < actions.length; i++) {
+        for (let j = 0; j < divisions; j++) {
+            context.rotate(radiansFromDegrees(angle));
+            
             context.beginPath();
-            context.moveTo(mx, my);
-            context.lineTo(pmx, pmy);
+            context.moveTo(actions[i].x, actions[i].y);
+            context.lineTo(actions[i].px, actions[i].py);
             context.stroke();
 
             if (mirrorMode) {
                 context.save();
                 context.scale(1, -1);
                 context.beginPath();
-                context.moveTo(mx, my);
-                context.lineTo(pmx, pmy);
+                context.moveTo(actions[i].x, actions[i].y);
+                context.lineTo(actions[i].px, actions[i].py);
                 context.stroke();
                 context.restore();
             }
