@@ -27,14 +27,14 @@
                             <span class="menu__input">Space</span>
                         </li>
 
-                        <li class="menu__dropdown-option" data-menu-toggle-log>
-                            <span>Toggle Log</span>
-                            <span class="menu__input">`</span>
-                        </li>
-
                         <li class="menu__dropdown-option" data-menu-toggle-about>
                             <span>About</span>
                             <span class="menu__input">?</span>
+                        </li>
+
+                        <li class="menu__dropdown-option" data-menu-toggle-log>
+                            <span>Toggle Log</span>
+                            <span class="menu__input">`</span>
                         </li>
                         
                         <li class="menu__dropdown-option">
@@ -135,8 +135,36 @@
             </ul>
         </nav>
 
-        <aside class="cPanel">
+        <aside class="cpanel" data-cpanel>
+            <div class="control-container">
+                <label for="divisions">divisions</label>
+                <input class="control" type="number" id="divisions" name="divisions" min="1" max="1000" value="6" data-cpanel-divisions>
+            </div>
 
+            <div class="control-container">
+                <label for="backgroundColour">guide colour</label>
+                <input class="control" type="color" id="guideColour" name="guideColour" value="#00FFFF" data-cpanel-guide-colour>
+            </div>
+
+            <div class="control-container">
+                <label for="backgroundColour">background colour</label>
+                <input class="control" type="color" id="backgroundColour" name="backgroundColour" value="#FFFFFF" data-cpanel-background-colour>
+            </div>
+
+            <div class="control-container">
+                <label for="strokeWidth">stroke</label>
+                <input class="control" type="number" id="strokeWidth" name="strokeWidth" min="1" max="10" value="1" data-cpanel-stroke-width>
+            </div>
+
+            <div class="control-container">
+                <label for="strokeColour">stroke color</label>
+                <input class="control" type="color" id="strokeColour" name="strokeColour" value="#000000" data-cpanel-stroke-colour>
+            </div>
+
+            <div class="control-container">
+                <label for="strokeOpacity">stroke opacity</label>
+                <input class="control" type="number" id="strokeOpacity" name="strokeOpacity" min="0" max="255" value="255" data-cpanel-stroke-opacity>
+            </div>
         </aside>
 
         <aside class="log log--hidden" data-log>

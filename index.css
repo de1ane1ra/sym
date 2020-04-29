@@ -128,6 +128,26 @@ label {
     padding: 0.3rem 0;
 }
 
+.cpanel {
+    background-color: var(--colour__light);
+    padding: 1rem;
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    user-select: none;
+    transition: bottom 0.3s ease;
+}
+
+.cpanel--hidden {
+    bottom: -24rem;
+}
+
+.control {
+    margin: 0.5rem 0;
+    border: 1px solid var(--colour__dark);
+    padding: 0.25rem;
+}
+
 .about {
     border: 1px solid var(--colour__dark);
     background-color: var(--colour__light);

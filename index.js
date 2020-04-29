@@ -1,11 +1,16 @@
+// Remove this in production
+let debug = true;
+
 const canvas = document.querySelector('[data-canvas]');
 const context = canvas.getContext('2d');
 let canvasWidth = window.innerWidth;
 let canvasHeight = window.innerHeight;
 
-document.addEventListener('contextmenu', function(){
-    return false;
-});
+if (!debug) {
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+    });
+}
 
 const radiansFromDegrees = function(degrees) {
     return degrees * (Math.PI / 180);
@@ -54,8 +59,11 @@ let breakMe = false;
 
 const nav = document.querySelector('[data-nav]');
 
-const log = document.querySelector('[data-log]')
+const log = document.querySelector('[data-log]');
 const logList = document.querySelector('[data-log-list]');
+
+const cPanel = document.querySelector('[data-cpanel]');
+
 let itemsLogged = 0;
 
 const ListInLog = function(logMessage) {
@@ -68,21 +76,22 @@ const ListInLog = function(logMessage) {
     
     logList.appendChild(logListItem);
     logList.scrollTop = logList.scrollHeight;
-}
+};
 
 const about = document.querySelector('[data-about]');
 
 const menuToggleNav = document.querySelector('[data-menu-toggle-nav]');
-const menuToggleLog = document.querySelector('[data-menu-toggle-log]');
+const menuToggleCpanel = document.querySelector('[data-menu-toggle-cpanel]');
 const menuToggleAbout = document.querySelector('[data-menu-toggle-about]');
 const aboutX = document.querySelector('[data-about-x]');
+const menuToggleLog = document.querySelector('[data-menu-toggle-log]');
 
 menuToggleNav.addEventListener('click', function() {
     toggleElementVisibility(nav);
 });
 
-menuToggleLog.addEventListener('click', function() {
-    toggleElementVisibility(log);
+menuToggleCpanel.addEventListener('click', function() {
+    toggleElementVisibility(cPanel);
 });
 
 menuToggleAbout.addEventListener('click', function() {
@@ -93,16 +102,20 @@ aboutX.addEventListener('click', function() {
     toggleElementVisibility(about);
 });
 
+menuToggleLog.addEventListener('click', function() {
+    toggleElementVisibility(log);
+});
+
 document.addEventListener('mousedown', () => {
     ++mouseDown;
 
-    log.style.zIndex = -1
+    log.style.zIndex = -1;
 });
 
 document.addEventListener('mouseup', () => {
     --mouseDown;
 
-    log.style.zIndex = 0
+    log.style.zIndex = 0;
 });
 
 canvas.addEventListener('mousemove', function(event) {
@@ -130,6 +143,10 @@ document.addEventListener('keydown', (event) => {
 
     if (event.code === 'Slash') {
         toggleElementVisibility(about);
+    }
+
+    if (event.code === 'Space') {
+        toggleElementVisibility(cPanel);
     }
 });
 
@@ -183,7 +200,7 @@ const update = function() {
         actions.push({x: mx, y: my, px: pmx, py: pmy});
 
         if (breakMe) {
-            console.log(undefinedVar)
+            console.log(undefinedVar);
         }
     }
 
