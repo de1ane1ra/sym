@@ -1,5 +1,5 @@
 // Remove this in production
-let debug = false:wq;
+let debug = false;
 
 const canvas = document.querySelector('[data-canvas]');
 const context = canvas.getContext('2d');
