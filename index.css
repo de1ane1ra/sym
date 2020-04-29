@@ -8,7 +8,6 @@
 html {
     height: 100vh;
     font-size: 10px;
-    cursor: crosshair;
 }
 
 body {
@@ -18,6 +17,11 @@ body {
     font-family: courier, monospace;
     font-size: 1.2rem;
     overflow: hidden;
+    cursor: crosshair;
+}
+
+.cursor-hidden {
+    cursor: none;
 }
 
 canvas {
@@ -41,6 +45,10 @@ a:focus {
 
 label {
     cursor: pointer;
+}
+
+input:focus {
+    outline: none;
 }
 
 .nav {
@@ -146,6 +154,11 @@ label {
     margin: 0.5rem 0;
     border: 1px solid var(--colour__dark);
     padding: 0.25rem;
+}
+
+.control--colour {
+    margin: 0.5rem 0;
+    border: none;
 }
 
 .about {

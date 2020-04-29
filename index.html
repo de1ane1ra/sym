@@ -22,11 +22,6 @@
                             <span class="menu__input">Esc</span>
                         </li>
 
-                        <li class="menu__dropdown-option" data-menu-toggle-cpanel>
-                            <span>Toggle cPanel</span>
-                            <span class="menu__input">Space</span>
-                        </li>
-
                         <li class="menu__dropdown-option" data-menu-toggle-about>
                             <span>About</span>
                             <span class="menu__input">?</span>
@@ -48,13 +43,28 @@
                     File
 
                     <ul class="menu__dropdown-options">
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-new>
                             <span>New</span>
-                            <span class="menu__input">^N</span>
+                            <span class="menu__input">N</span>
+                        </li>
+                        <li class="menu__dropdown-option" data-menu-export-as-png>
+                            <span>Export As .png</span>
+                            <span class="menu__input">E</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="menu__dropdown">
+                    Edit
+
+                    <ul class="menu__dropdown-options">
+                        <li class="menu__dropdown-option">
+                            <span>Step Backward</span>
+                            <span class="menu__input">Z</span>
                         </li>
                         <li class="menu__dropdown-option">
-                            <span>Export As .png</span>
-                            <span class="menu__input">^E</span>
+                            <span>Step Forward</span>
+                            <span class="menu__input">X</span>
                         </li>
                     </ul>
                 </li>
@@ -105,9 +115,19 @@
                     View
 
                     <ul class="menu__dropdown-options">
+                        <li class="menu__dropdown-option" data-menu-toggle-cpanel>
+                            <span>Toggle cPanel</span>
+                            <span class="menu__input">Space</span>
+                        </li>
+
                         <li class="menu__dropdown-option">
                             <span>Toggle Guides</span>
                             <span class="menu__input">G</span>
+                        </li>
+
+                        <li class="menu__dropdown-option">
+                            <span>Toggle Cursor</span>
+                            <span class="menu__input">0</span>
                         </li>
                     </ul>
                 </li>
@@ -122,33 +142,48 @@
                         </li>
 
                         <li class="menu__dropdown-option">
+                            <span>Toggle Additive</span>
+                            <span class="menu__input">A</span>
+                        </li>
+
+                        <li class="menu__dropdown-option">
                             <span>Toggle Particle</span>
                             <span class="menu__input">P</span>
                         </li>
 
                         <li class="menu__dropdown-option">
+                            <span>Toggle Spill</span>
+                            <span class="menu__input">S</span>
+                        </li>
+
+                        <li class="menu__dropdown-option">
                             <span>Break Me</span>
-                            <span class="menu__input">^*</span>
+                            <span class="menu__input">*</span>
                         </li>
                     </ul>
                 </li>
             </ul>
         </nav>
 
-        <aside class="cpanel" data-cpanel>
+        <aside class="cpanel cpanel--hidden" data-cpanel>
             <div class="control-container">
                 <label for="divisions">divisions</label>
                 <input class="control" type="number" id="divisions" name="divisions" min="1" max="1000" value="6" data-cpanel-divisions>
             </div>
 
             <div class="control-container">
+                <label for="angle">angle</label>
+                <input class="control" type="number" id="angle" name="angle" min="0" max="360" value="360" data-cpanel-angle>
+            </div>
+
+            <div class="control-container">
                 <label for="backgroundColour">guide colour</label>
-                <input class="control" type="color" id="guideColour" name="guideColour" value="#00FFFF" data-cpanel-guide-colour>
+                <input class="control--colour" type="color" id="guideColour" name="guideColour" value="#00FFFF" data-cpanel-guide-colour>
             </div>
 
             <div class="control-container">
                 <label for="backgroundColour">background colour</label>
-                <input class="control" type="color" id="backgroundColour" name="backgroundColour" value="#FFFFFF" data-cpanel-background-colour>
+                <input class="control--colour" type="color" id="backgroundColour" name="backgroundColour" value="#FFFFFF" data-cpanel-background-colour>
             </div>
 
             <div class="control-container">
@@ -158,7 +193,7 @@
 
             <div class="control-container">
                 <label for="strokeColour">stroke color</label>
-                <input class="control" type="color" id="strokeColour" name="strokeColour" value="#000000" data-cpanel-stroke-colour>
+                <input class="control--colour" type="color" id="strokeColour" name="strokeColour" value="#000000" data-cpanel-stroke-colour>
             </div>
 
             <div class="control-container">

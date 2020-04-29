@@ -1,5 +1,5 @@
 // Remove this in production
-let debug = true;
+let debug = false:wq;
 
 const canvas = document.querySelector('[data-canvas]');
 const context = canvas.getContext('2d');
@@ -11,6 +11,10 @@ if (!debug) {
         event.preventDefault();
     });
 }
+
+const isWholeNumber = function(value) {
+    return value % 1 === 0;
+};
 
 const radiansFromDegrees = function(degrees) {
     return degrees * (Math.PI / 180);
@@ -25,9 +29,11 @@ const toggleElementVisibility = function(element) {
 
     if (element.classList.contains(`${elementName}--hidden`)) {
         ListInLog(`Reveal ${capitalizeString(elementName)}`);
+
         element.classList.remove(`${elementName}--hidden`);
     } else {
         ListInLog(`Hide ${capitalizeString(elementName)}`);
+
         element.classList.add(`${elementName}--hidden`);
     }
 };
@@ -49,22 +55,36 @@ const prevMouse = {
     y: 0
 };
 
-let divisions = 24;
-let angle = 360 / divisions;
-
-let guides = true;
-let mirrorMode = false;
-let particleMode = false;
-let breakMe = false;
-
 const nav = document.querySelector('[data-nav]');
 
 const log = document.querySelector('[data-log]');
 const logList = document.querySelector('[data-log-list]');
 
 const cPanel = document.querySelector('[data-cpanel]');
+const controlDivisions = document.querySelector('[data-cpanel-divisions]');
+const controlAngle = document.querySelector('[data-cpanel-angle]');
+const controlGuideColour = document.querySelector('[data-cpanel-guide-colour]');
+const controlBackgroundColour = document.querySelector('[data-cpanel-background-colour]');
+const controlStrokeWidth = document.querySelector('[data-cpanel-stroke-width]');
+const controlStrokeColour = document.querySelector('[data-cpanel-stroke-colour]');
+const controlStrokeOpacity = document.querySelector('[data-cpanel-stroke-opacity]');
+
+let divisions = 6;
+let angle = controlAngle.value / divisions;
+
+let actions = [];
+let trimmedActions = [];
+
+let guides = true;
+let mirrorMode = true;
+let additiveMode = false;
+let particleMode = false;
+let spillMode = false;
+let breakMe = false;
 
 let itemsLogged = 0;
+
+document.body.style.backgroundColor = controlBackgroundColour.value
 
 const ListInLog = function(logMessage) {
     itemsLogged += 1;
@@ -86,6 +106,9 @@ const menuToggleAbout = document.querySelector('[data-menu-toggle-about]');
 const aboutX = document.querySelector('[data-about-x]');
 const menuToggleLog = document.querySelector('[data-menu-toggle-log]');
 
+const menuNew = document.querySelector('[data-menu-new]');
+const menuExportAsPNG = document.querySelector('[data-menu-export-as-png]');
+
 menuToggleNav.addEventListener('click', function() {
     toggleElementVisibility(nav);
 });
@@ -106,16 +129,27 @@ menuToggleLog.addEventListener('click', function() {
     toggleElementVisibility(log);
 });
 
+const downloadImage = function(data, filename, type) {
+   canvas.toBlob(function(blob) {
+       let link = document.createElement('a');
+       link.download = `sym${Date.now()}.png`;
+       link.href = URL.createObjectURL(blob);
+       link.click();
+
+       URL.revokeObjectURL(link.href)
+   }, 'image/png');
+};
+
+menuExportAsPNG.addEventListener('click', function() {
+    downloadImage();
+});
+
 document.addEventListener('mousedown', () => {
     ++mouseDown;
-
-    log.style.zIndex = -1;
 });
 
 document.addEventListener('mouseup', () => {
     --mouseDown;
-
-    log.style.zIndex = 0;
 });
 
 canvas.addEventListener('mousemove', function(event) {
@@ -131,22 +165,101 @@ window.addEventListener('resize', () => {
 });
 
 document.addEventListener('keydown', (event) => {
-    ListInLog(`Press ${event.code}`);
+    ListInLog(`[${event.code}]`);
 
     if (event.code === 'Escape') {
         toggleElementVisibility(nav);
-    }
-
-    if (event.code === 'Backquote') {
-        toggleElementVisibility(log);
     }
 
     if (event.code === 'Slash') {
         toggleElementVisibility(about);
     }
 
+    if (event.code === 'Backquote') {
+        toggleElementVisibility(log);
+    }
+
     if (event.code === 'Space') {
         toggleElementVisibility(cPanel);
+    }
+
+    if (event.code === 'KeyN') {
+        actions = [];
+        timmedActions = [];
+    }
+
+    if (event.code === 'KeyE') {
+        downloadImage();
+    }
+
+    if (event.code === 'Quote') {
+        controlDivisions.value++;
+
+        ListInLog(`Increased Divisions to ${controlDivisions.value}`);
+    }
+
+    if (event.code === 'Semicolon') {
+        controlDivisions.value--;
+
+        ListInLog(`Decreased Divisions to ${controlDivisions.value}`);
+    }
+
+    if (event.code === 'KeyB') {
+        controlBackgroundColour.click()
+    }
+
+    if (event.code === 'KeyC') {
+        controlStrokeColour.click()
+    }
+
+    if (event.code === 'KeyM') {
+        mirrorMode = !mirrorMode;
+
+        ListInLog(`Mirror ${(mirrorMode === true ? 'enabled' : 'disabled')}`);
+    }
+
+    if (event.code === 'KeyA') {
+        additiveMode = !additiveMode;
+
+        ListInLog(`Additive ${(additiveMode === true ? 'enabled' : 'disabled')}`);
+    }
+
+    if (event.code === 'KeyP') {
+        particleMode = !particleMode;
+
+        ListInLog(`Particle ${(particleMode === true ? 'enabled' : 'disabled')}`);
+    }
+
+    if (event.code === 'KeyS') {
+        spillMode = !spillMode;
+
+        ListInLog(`Spill ${(spillMode === true ? 'enabled' : 'disabled')}`);
+    }
+
+    if (event.code === 'Digit8') {
+        breakMe = !breakMe;
+
+        ListInLog(`BreakMe ${(breakMe === true ? 'enabled' : 'disabled')}`);
+    }
+
+    if (event.code === 'Digit0' || event.code === 'Numpad0') {
+        if (document.body.classList.contains('cursor-hidden')) {
+            document.body.classList.remove('cursor-hidden');
+        } else {
+            document.body.classList.add('cursor-hidden');
+        }
+    }
+
+    if (event.code === 'KeyZ') {
+        if (actions.length >= 1) {
+            trimmedActions.push(actions.pop());
+        }
+    }
+
+    if (event.code === 'KeyX') {
+        if (trimmedActions.length >= 1) {
+            actions.push(trimmedActions.pop());
+        }
     }
 });
 
@@ -173,20 +286,36 @@ const setup = function() {
 
     context.scale(dpr, dpr);
 
-    context.lineWidth = 1;
-    context.strokeStyle = '#000000';
+    context.lineWidth = controlStrokeWidth.value;
+    context.strokeStyle = controlStrokeColour.value;
 
     context.translate(canvasWidth / 2, canvasHeight / 2);
-};
 
-let actions = [];
+    update();
+};
 
 const update = function() {
     requestAnimationFrame(update);
 
+    if (!additiveMode) {
+        context.fillStyle = controlBackgroundColour.value;
+        context.fillRect(0 - canvasWidth / 2, 0 - canvasHeight / 2, canvas.width, canvas.height);
+    }
+
+    // This causes mayhem when divisions features a decimal value. I like it.
+    if (particleMode && !isWholeNumber(divisions)) {
+        context.fillRect(0 - canvasWidth / 2, 0 - canvasHeight / 2, canvas.width, canvas.height);
+    }
+
     if (particleMode) {
         context.clearRect(0 - canvasWidth / 2, 0 - canvasHeight / 2, canvasWidth, canvasHeight);
     }
+
+    divisions = controlDivisions.value;
+    angle = controlAngle.value / divisions;
+    document.body.style.backgroundColor = controlBackgroundColour.value;
+    context.lineWidth = controlStrokeWidth.value;
+    context.strokeStyle = controlStrokeColour.value;
 
     currentMouse.x = mouse.x;
     currentMouse.y = mouse.y;
@@ -196,7 +325,7 @@ const update = function() {
     const pmx = prevMouse.x - canvasWidth / 2;
     const pmy = prevMouse.y - canvasHeight / 2;
 
-    if (mouseDown) {
+    if (mouseDown || spillMode) {
         actions.push({x: mx, y: my, px: pmx, py: pmy});
 
         if (breakMe) {
@@ -230,4 +359,3 @@ const update = function() {
 };
 
 setup();
-update();
