@@ -9,121 +9,166 @@
     </head>
 
     <body>
-        <nav class="nav">
-            <ul class="controls">
-                <li class="controls__dropdown">
+        <canvas data-canvas></canvas>
+
+        <nav class="nav" data-nav="nav">
+            <ul class="menu">
+                <li class="menu__dropdown">
                     ✺
 
-                    <ul class="controls__dropdown-options">
-                        <li class="controls__dropdown-option">
+                    <ul class="menu__dropdown-options">
+                        <li class="menu__dropdown-option" data-menu-toggle-nav>
                             <span>Toggle Menu</span>
-                            <span class="controls__input">Esc</span>
+                            <span class="menu__input">Esc</span>
                         </li>
 
-                        <li class="controls__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-toggle-cpanel>
+                            <span>Toggle cPanel</span>
+                            <span class="menu__input">Space</span>
+                        </li>
+
+                        <li class="menu__dropdown-option" data-menu-toggle-log>
                             <span>Toggle Log</span>
-                            <span class="controls__input">`</span>
+                            <span class="menu__input">`</span>
+                        </li>
+
+                        <li class="menu__dropdown-option" data-menu-toggle-about>
+                            <span>About</span>
+                            <span class="menu__input">?</span>
                         </li>
                         
-                        <li class="controls__dropdown-option">
+                        <li class="menu__dropdown-option">
                             <span>Quit</span>
-                            <span class="controls__input">End</span>
+                            <span class="menu__input">End</span>
                         </li>
                     </ul>
                 </li>
 
-                <li class="controls__dropdown">
+                <li class="menu__dropdown">
                     File
 
-                    <ul class="controls__dropdown-options">
-                        <li class="controls__dropdown-option">
+                    <ul class="menu__dropdown-options">
+                        <li class="menu__dropdown-option">
                             <span>New</span>
-                            <span class="controls__input">^N</span>
+                            <span class="menu__input">^N</span>
                         </li>
-                        <li class="controls__dropdown-option">
-                            <span>Export</span>
-                            <span class="controls__input">^E</span>
+                        <li class="menu__dropdown-option">
+                            <span>Export As .png</span>
+                            <span class="menu__input">^E</span>
                         </li>
                     </ul>
                 </li>
 
-                <li class="controls__dropdown">
+                <li class="menu__dropdown">
                     Canvas
 
-                    <ul class="controls__dropdown-options">
-                        <li class="controls__dropdown-option">
+                    <ul class="menu__dropdown-options">
+                        <li class="menu__dropdown-option">
                             <span>Increase Divisions</span>
-                            <span class="controls__input">.</span>
+                            <span class="menu__input">.</span>
                         </li>
 
-                        <li class="controls__dropdown-option">
+                        <li class="menu__dropdown-option">
                             <span>Decrease Divisions</span>
-                            <span class="controls__input">,</span>
+                            <span class="menu__input">,</span>
                         </li>
 
-                        <li class="controls__dropdown-option">
+                        <li class="menu__dropdown-option">
                             <span>Background Colour</span>
-                            <span class="controls__input">B</span>
+                            <span class="menu__input">B</span>
                         </li>
                     </ul>
                 </li>
 
-                <li class="controls__dropdown">
+                <li class="menu__dropdown">
                     Brush
 
-                    <ul class="controls__dropdown-options">
-                        <li class="controls__dropdown-option">
+                    <ul class="menu__dropdown-options">
+                        <li class="menu__dropdown-option">
                             <span>Increase Stroke</span>
-                            <span class="controls__input">^↑</span>
+                            <span class="menu__input">^↑</span>
                         </li>
 
-                        <li class="controls__dropdown-option">
+                        <li class="menu__dropdown-option">
                             <span>Decrease Stroke</span>
-                            <span class="controls__input">^↓</span>
+                            <span class="menu__input">^↓</span>
                         </li>
 
-                        <li class="controls__dropdown-option">
+                        <li class="menu__dropdown-option">
                             <span>Stroke Colour</span>
-                            <span class="controls__input">C</span>
+                            <span class="menu__input">C</span>
                         </li>
                     </ul>
                 </li>
 
-                <li class="controls__dropdown">
+                <li class="menu__dropdown">
                     View
 
-                    <ul class="controls__dropdown-options">
-                        <li class="controls__dropdown-option">
+                    <ul class="menu__dropdown-options">
+                        <li class="menu__dropdown-option">
                             <span>Toggle Guides</span>
-                            <span class="controls__input">G</span>
+                            <span class="menu__input">G</span>
                         </li>
                     </ul>
                 </li>
 
-                <li class="controls__dropdown">
+                <li class="menu__dropdown">
                     Modifier
 
-                    <ul class="controls__dropdown-options">
-                        <li class="controls__dropdown-option">
+                    <ul class="menu__dropdown-options">
+                        <li class="menu__dropdown-option">
                             <span>Toggle Mirror</span>
-                            <span class="controls__input">M</span>
+                            <span class="menu__input">M</span>
                         </li>
 
-                        <li class="controls__dropdown-option">
+                        <li class="menu__dropdown-option">
                             <span>Toggle Particle</span>
-                            <span class="controls__input">P</span>
+                            <span class="menu__input">P</span>
+                        </li>
+
+                        <li class="menu__dropdown-option">
+                            <span>Break Me</span>
+                            <span class="menu__input">^*</span>
                         </li>
                     </ul>
                 </li>
             </ul>
         </nav>
 
-        <aside class="log">
-            <div class="log__wrapper" data-log>
+        <aside class="cPanel">
+
+        </aside>
+
+        <aside class="log log--hidden" data-log>
+            <div class="log__wrapper" data-log-list>
             </div>
         </aside>
 
-        <canvas data-canvas></canvas>
+        <aside class="about about--hidden" data-about>
+            <div class="about__x" data-about-x>x</div>
+
+            <div class="deianeira-mark">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="82.17px" height="61.9px" viewBox="0 0 82.17 61.9" style="enable-background:new 0 0 82.17 61.9;" xml:space="preserve">
+                    <style type="text/css">
+                        .st0{fill:none;stroke:#231F20;stroke-width:0.7087;stroke-miterlimit:10;}
+                    </style>
+                    <defs>
+                    </defs>
+                    <circle class="st0" cx="30.95" cy="30.95" r="30.6"/>
+                    <ellipse transform="matrix(0.7071 -0.7071 0.7071 0.7071 -6.8828 45.2823)" class="st0" cx="51.22" cy="30.95" rx="30.6" ry="30.6"/>
+                    <circle class="st0" cx="51.22" cy="30.95" r="10.13"/>
+                    <circle class="st0" cx="30.95" cy="30.95" r="10.13"/>
+                    <circle class="st0" cx="41.08" cy="30.95" r="30.6"/>
+                    <circle class="st0" cx="41.08" cy="30.95" r="10.13"/>
+                </svg>
+            </div>
+
+            <span class="about__info">MMXIX <a href="http://deianeira.co">Δηϊάνειρα</a></span>
+
+            <span class="about__info">v1.0.0</span>
+            <span class="about__info"><a href="http://github.com/JordanGiustizia/sym">Repository</a></span>
+            <span class="about__info">Thank you & enjoy.</span>
+        </aside>
 
         <script src="./index.js"></script>
     </body>

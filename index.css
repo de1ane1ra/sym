@@ -17,12 +17,30 @@ body {
     margin: 0;
     font-family: courier, monospace;
     font-size: 1.2rem;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
 }
 
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+a {
+    color: var(--colour__dark);
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+}
+
+label {
+    cursor: pointer;
 }
 
 .nav {
@@ -33,57 +51,69 @@ ul {
     color: var(--colour__dark);
     padding: 0rem 1rem;
     user-select: none;
+    transition: top 0.3s ease;
 }
 
-.controls__dropdown {
+.nav--hidden {
+    top: -2.4rem;
+}
+
+.menu__dropdown {
     display: inline-block;
     padding: 0.5rem;
     cursor: pointer;
     position: relative;
 }
 
-.controls__dropdown:hover,
-.controls__drowndown:active,
-.controls__drowndown:focus {
+.menu__dropdown:hover,
+.menu__drowndown:active,
+.menu__drowndown:focus {
     color: var(--colour__light);
     background-color: var(--colour__dark);
     cursor: pointer;
 }
 
-.controls__dropdown:hover .controls__dropdown-options {
-    display: block;
+.menu__dropdown:hover .menu__dropdown-options {
+    visibility: visible;
 }
 
-.controls__dropdown-options {
+.menu__dropdown-options {
     position: absolute;
     top: 100%;
     left: 0;
-    display: none;
+    visibility: hidden;
     color: var(--colour__dark);
     background-color: var(--colour__light);
 }
 
-.controls__dropdown-option {
+.menu__dropdown-option {
     display: block;
     width: 15rem;
     padding: 0.5rem;
 }
 
-.controls__dropdown-option:hover {
+.menu__dropdown-option:hover {
     background-color: var(--colour__mid-light);
 }
 
-.controls__input {
+.menu__input {
     float: right;
     color: var(--colour__mid);
 }
 
 .log {
     position: absolute;
-    bottom: 0.5rem;
-    left: 0.5rem;
+    bottom: 0rem;
+    left: 0rem;
     overflow: hidden;
     height: 20rem;
+    transition: bottom 0.1s ease;
+    user-select: none;
+    padding: 0.5rem;
+}
+
+.log--hidden {
+    bottom: -20rem;
 }
 
 .log__wrapper {
@@ -95,5 +125,40 @@ ul {
 
 .log__item {
     display: block;
-    padding: 0.1rem 0;
+    padding: 0.3rem 0;
+}
+
+.about {
+    border: 1px solid var(--colour__dark);
+    background-color: var(--colour__light);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2rem;
+    user-select: none;
+}
+
+.about--hidden {
+    display: none;
+}
+
+.about__x {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    padding: 0.25rem;
+    cursor: pointer;
+    line-height: 0.5;
+}
+
+.about__info {
+    display: block;
+    text-align: center;
+    padding: 0.25rem;
+}
+
+.deianeira-mark {
+    text-align: center;
+    padding: 4rem;
 }
