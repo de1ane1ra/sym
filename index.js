@@ -55,6 +55,9 @@ const prevMouse = {
     y: 0
 };
 
+
+let canvasIsTarget = false;
+
 const nav = document.querySelector('[data-nav]');
 
 const log = document.querySelector('[data-log]');
@@ -69,7 +72,7 @@ const controlStrokeWidth = document.querySelector('[data-cpanel-stroke-width]');
 const controlStrokeColour = document.querySelector('[data-cpanel-stroke-colour]');
 const controlStrokeOpacity = document.querySelector('[data-cpanel-stroke-opacity]');
 
-let divisions = 6;
+let divisions = controlDivisions.value;
 let angle = controlAngle.value / divisions;
 
 let actions = [];
@@ -109,6 +112,9 @@ const menuToggleLog = document.querySelector('[data-menu-toggle-log]');
 const menuNew = document.querySelector('[data-menu-new]');
 const menuExportAsPNG = document.querySelector('[data-menu-export-as-png]');
 
+const menuStepBackward = document.querySelector('[data-menu-step-backward]');
+const menuStepForward = document.querySelector('[data-menu-step-forward]');
+
 menuToggleNav.addEventListener('click', function() {
     toggleElementVisibility(nav);
 });
@@ -129,6 +135,26 @@ menuToggleLog.addEventListener('click', function() {
     toggleElementVisibility(log);
 });
 
+const stepBackward= function() {
+    if (actions.length >= 1) {
+        trimmedActions.push(actions.pop());
+    }
+};
+
+const stepForward = function() {
+    if (trimmedActions.length >= 1) {
+        actions.push(trimmedActions.pop());
+    }
+};
+
+menuStepBackward.addEventListener('click', function() {
+    stepBackward();
+});
+
+menuStepForward.addEventListener('click', function() {
+     stepForward();
+});
+
 const downloadImage = function(data, filename, type) {
    canvas.toBlob(function(blob) {
        let link = document.createElement('a');
@@ -144,8 +170,14 @@ menuExportAsPNG.addEventListener('click', function() {
     downloadImage();
 });
 
-document.addEventListener('mousedown', () => {
+document.addEventListener('mousedown', (event) => {
     ++mouseDown;
+
+    if (event.target === canvas) {
+        targetIsCanvas = true;
+    } else {
+        targetIsCanvas = false;
+    }
 });
 
 document.addEventListener('mouseup', () => {
@@ -251,15 +283,11 @@ document.addEventListener('keydown', (event) => {
     }
 
     if (event.code === 'KeyZ') {
-        if (actions.length >= 1) {
-            trimmedActions.push(actions.pop());
-        }
+        stepBackward();
     }
 
     if (event.code === 'KeyX') {
-        if (trimmedActions.length >= 1) {
-            actions.push(trimmedActions.pop());
-        }
+        stepForward();
     }
 });
 
@@ -325,7 +353,7 @@ const update = function() {
     const pmx = prevMouse.x - canvasWidth / 2;
     const pmy = prevMouse.y - canvasHeight / 2;
 
-    if (mouseDown || spillMode) {
+    if ((mouseDown && targetIsCanvas) || spillMode) {
         actions.push({x: mx, y: my, px: pmx, py: pmy});
 
         if (breakMe) {
