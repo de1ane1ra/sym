@@ -38,24 +38,6 @@ const toggleElementVisibility = function(element) {
     }
 };
 
-let mouseDown = 0;
-
-const mouse = {
-    x: 0,
-    y: 0
-};
-
-const currentMouse = {
-    x: 0,
-    y: 0
-};
-
-const prevMouse = {
-    x: 0,
-    y: 0
-};
-
-
 let canvasIsTarget = false;
 
 const nav = document.querySelector('[data-nav]');
@@ -170,14 +152,25 @@ menuExportAsPNG.addEventListener('click', function() {
     downloadImage();
 });
 
+let mouseDown = 0;
+
+const mouse = {
+    x: 0,
+    y: 0
+};
+
+const currentMouse = {
+    x: 0,
+    y: 0
+};
+
+const prevMouse = {
+    x: 0,
+    y: 0
+};
+
 document.addEventListener('mousedown', (event) => {
     ++mouseDown;
-
-    if (event.target === canvas) {
-        targetIsCanvas = true;
-    } else {
-        targetIsCanvas = false;
-    }
 });
 
 document.addEventListener('mouseup', () => {
@@ -185,8 +178,24 @@ document.addEventListener('mouseup', () => {
 });
 
 canvas.addEventListener('mousemove', function(event) {
-    mouse.x = event.pageX - this.offsetLeft;
-    mouse.y = event.pageY - this.offsetTop;
+        mouse.x = event.pageX - this.offsetLeft;
+        mouse.y = event.pageY - this.offsetTop;
+
+        const mx = mouse.x - canvasWidth / 2;
+        const my = mouse.y - canvasHeight / 2;
+        const pmx = prevMouse.x - canvasWidth / 2;
+        const pmy = prevMouse.y - canvasHeight / 2;
+
+        if (mouseDown || spillMode) {
+            actions.push({x: mx, y: my, px: pmx, py: pmy});
+        }
+
+        if (breakMe) {
+            console.log(undefinedVar);
+        }
+
+        prevMouse.x = mouse.x;
+        prevMouse.y = mouse.y;
 });
 
 window.addEventListener('resize', () => {
@@ -291,18 +300,6 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-const mouseX = function(canvas, event) {
-    const canvasBorder = canvas.getBoundingClientRect();
-
-    return event.clientX - canvasBorder.left;
-};
-
-const mouseY = function(canvas, event) {
-    const canvasBorder = canvas.getBoundingClientRect();
-
-    return event.clientY - canvasBorder.top;
-};
-
 const setup = function() {
     canvas.style.width = canvasWidth + 'px';
     canvas.style.height = canvasHeight + 'px';
@@ -345,22 +342,6 @@ const update = function() {
     context.lineWidth = controlStrokeWidth.value;
     context.strokeStyle = controlStrokeColour.value;
 
-    currentMouse.x = mouse.x;
-    currentMouse.y = mouse.y;
-
-    const mx = currentMouse.x - canvasWidth / 2;
-    const my = currentMouse.y - canvasHeight / 2;
-    const pmx = prevMouse.x - canvasWidth / 2;
-    const pmy = prevMouse.y - canvasHeight / 2;
-
-    if ((mouseDown && targetIsCanvas) || spillMode) {
-        actions.push({x: mx, y: my, px: pmx, py: pmy});
-
-        if (breakMe) {
-            console.log(undefinedVar);
-        }
-    }
-
     for (let i = 0; i < actions.length; i++) {
         for (let j = 0; j < divisions; j++) {
             context.rotate(radiansFromDegrees(angle));
@@ -381,9 +362,6 @@ const update = function() {
             }
         }
     }
-
-    prevMouse.x = currentMouse.x;
-    prevMouse.y = currentMouse.y;
 };
 
 setup();
