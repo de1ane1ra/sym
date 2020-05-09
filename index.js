@@ -115,6 +115,22 @@ const menuExportAsPNG = document.querySelector('[data-menu-export-as-png]');
 const menuStepBackward = document.querySelector('[data-menu-step-backward]');
 const menuStepForward = document.querySelector('[data-menu-step-forward]');
 
+const menuIncreaseDivisions = document.querySelector('[data-menu-increase-divisions]');
+const menuDecreaseDivisions = document.querySelector('[data-menu-decrease-divisions]');
+const menuOpenBackgroundColourPicker = document.querySelector('[data-menu-open-background-colour-picker]');
+
+const menuIncreaseStrokeWidth = document.querySelector('[data-menu-increase-stroke-width]');
+const menuDecreaseStrokeWidth = document.querySelector('[data-menu-decrease-stroke-width]');
+const menuOpenStrokeColourPicker = document.querySelector('[data-menu-open-stroke-colour-picker]');
+
+const menuToggleCursor = document.querySelector('[data-menu-toggle-cursor]');
+
+const menuToggleMirror = document.querySelector('[data-menu-toggle-mirror]');
+const menuToggleAdditive = document.querySelector('[data-menu-toggle-additive]');
+const menuToggleParticle = document.querySelector('[data-menu-toggle-particle]');
+const menuToggleSpill = document.querySelector('[data-menu-toggle-spill]');
+const menuToggleBreakMe = document.querySelector('[data-menu-toggle-break-me]');
+
 menuToggleNav.addEventListener('click', function() {
     toggleElementVisibility(nav);
 });
@@ -135,7 +151,7 @@ menuToggleLog.addEventListener('click', function() {
     toggleElementVisibility(log);
 });
 
-const stepBackward= function() {
+const stepBackward = function() {
     if (actions.length >= 1) {
         trimmedActions.push(actions.pop());
     }
@@ -158,6 +174,7 @@ menuStepForward.addEventListener('click', function() {
 const downloadImage = function(data, filename, type) {
    canvas.toBlob(function(blob) {
        let link = document.createElement('a');
+       
        link.download = `sym${Date.now()}.png`;
        link.href = URL.createObjectURL(blob);
        link.click();
@@ -170,6 +187,66 @@ menuExportAsPNG.addEventListener('click', function() {
     downloadImage();
 });
 
+const increaseDivisions = function() {
+    controlDivisions.value++;
+};
+
+const decreaseDivisions = function() {
+    controlDivisions.value--;
+};
+
+menuIncreaseDivisions.addEventListener('click', function() {
+    increaseDivisions();
+});
+
+menuDecreaseDivisions.addEventListener('click', function() {
+    decreaseDivisions();
+});
+
+const openBackgroundColourPicker = function() {
+    controlBackgroundColour.click()
+};
+
+menuOpenBackgroundColourPicker.addEventListener('click', function() {
+    openBackgroundColourPicker();
+});
+
+const increaseStrokeWidth = function() {
+    controlStrokeWidth.value++;
+};
+
+const decreaseStrokeWidth = function() {
+    controlStrokeWidth.value--;
+};
+
+menuIncreaseStrokeWidth.addEventListener('click', function() {
+    increaseStrokeWidth();
+});
+
+menuDecreaseStrokeWidth.addEventListener('click', function() {
+    decreaseStrokeWidth();
+});
+
+const openStrokeColourPicker = function() {
+    controlStrokeColour.click()
+};
+
+menuOpenStrokeColourPicker.addEventListener('click', function() {
+    openStrokeColourPicker();
+});
+
+const toggleCursor = function() {
+    if (document.body.classList.contains('cursor-hidden')) {
+        document.body.classList.remove('cursor-hidden');
+    } else {
+        document.body.classList.add('cursor-hidden');
+    }
+};
+
+menuToggleCursor.addEventListener('click', function() {
+    toggleCursor();
+});
+
 document.addEventListener('mousedown', (event) => {
     ++mouseDown;
 
@@ -178,6 +255,56 @@ document.addEventListener('mousedown', (event) => {
     } else {
         targetIsCanvas = false;
     }
+});
+
+const toggleMirror = function() {
+    mirrorMode = !mirrorMode;
+
+    ListInLog(`Mirror ${(mirrorMode === true ? 'enabled' : 'disabled')}`);
+}
+
+menuToggleMirror.addEventListener('click', function() {
+    toggleMirror();
+});
+
+const toggleAdditive = function() {
+    additiveMode = !additiveMode;
+
+    ListInLog(`Additive ${(additiveMode === true ? 'enabled' : 'disabled')}`);
+}
+
+menuToggleAdditive.addEventListener('click', function() {
+    toggleAdditive();
+});
+
+const toggleParticle = function() {
+    particleMode = !particleMode;
+
+    ListInLog(`Particle ${(particleMode === true ? 'enabled' : 'disabled')}`);
+}
+
+menuToggleParticle.addEventListener('click', function() {
+    toggleParticle();
+});
+
+const toggleSpill = function() {
+    spillMode = !spillMode;
+
+    ListInLog(`Spill ${(spillMode === true ? 'enabled' : 'disabled')}`);
+}
+
+menuToggleSpill.addEventListener('click', function() {
+    toggleSpill();
+});
+
+const toggleBreakMe = function() {
+    breakMe = !breakMe;
+
+    ListInLog(`BreakMe ${(breakMe === true ? 'enabled' : 'disabled')}`);
+}
+
+menuToggleBreakMe.addEventListener('click', function() {
+    toggleBreakMe();
 });
 
 document.addEventListener('mouseup', () => {
@@ -198,6 +325,10 @@ window.addEventListener('resize', () => {
 
 document.addEventListener('keydown', (event) => {
     ListInLog(`[${event.code}]`);
+
+    if (event.code === 'Tab') {
+        e.preventDefault();
+    }
 
     if (event.code === 'Escape') {
         toggleElementVisibility(nav);
@@ -224,70 +355,72 @@ document.addEventListener('keydown', (event) => {
         downloadImage();
     }
 
-    if (event.code === 'Quote') {
-        controlDivisions.value++;
-
-        ListInLog(`Increased Divisions to ${controlDivisions.value}`);
-    }
-
-    if (event.code === 'Semicolon') {
-        controlDivisions.value--;
-
-        ListInLog(`Decreased Divisions to ${controlDivisions.value}`);
-    }
-
-    if (event.code === 'KeyB') {
-        controlBackgroundColour.click()
-    }
-
-    if (event.code === 'KeyC') {
-        controlStrokeColour.click()
-    }
-
-    if (event.code === 'KeyM') {
-        mirrorMode = !mirrorMode;
-
-        ListInLog(`Mirror ${(mirrorMode === true ? 'enabled' : 'disabled')}`);
-    }
-
-    if (event.code === 'KeyA') {
-        additiveMode = !additiveMode;
-
-        ListInLog(`Additive ${(additiveMode === true ? 'enabled' : 'disabled')}`);
-    }
-
-    if (event.code === 'KeyP') {
-        particleMode = !particleMode;
-
-        ListInLog(`Particle ${(particleMode === true ? 'enabled' : 'disabled')}`);
-    }
-
-    if (event.code === 'KeyS') {
-        spillMode = !spillMode;
-
-        ListInLog(`Spill ${(spillMode === true ? 'enabled' : 'disabled')}`);
-    }
-
-    if (event.code === 'Digit8') {
-        breakMe = !breakMe;
-
-        ListInLog(`BreakMe ${(breakMe === true ? 'enabled' : 'disabled')}`);
-    }
-
-    if (event.code === 'Digit0' || event.code === 'Numpad0') {
-        if (document.body.classList.contains('cursor-hidden')) {
-            document.body.classList.remove('cursor-hidden');
-        } else {
-            document.body.classList.add('cursor-hidden');
-        }
-    }
-
     if (event.code === 'KeyZ') {
         stepBackward();
     }
 
     if (event.code === 'KeyX') {
         stepForward();
+    }
+
+    if (event.code === 'Quote') {
+        event.preventDefault();
+
+        increaseDivisions();
+
+        ListInLog(`Increased Divisions to ${controlDivisions.value}`);
+    }
+
+    if (event.code === 'Semicolon') {
+        event.preventDefault();
+
+        decreaseDivisions();
+
+        ListInLog(`Decreased Divisions to ${controlDivisions.value}`);
+    }
+
+    if (event.code === 'KeyB') {
+        openBackgroundColourPicker();
+    }
+
+    if (event.code === 'BracketRight') {
+        increaseStrokeWidth();
+
+        ListInLog(`Increased Stroke Width to ${controlStrokeWidth.value}`);
+    }
+
+    if (event.code === 'BracketLeft') {
+        decreaseStrokeWidth();
+
+        ListInLog(`Decreased Stroke Width to ${controlStrokeWidth.value}`);
+    }
+
+    if (event.code === 'KeyC') {
+        openStrokeColourPicker();
+    }
+
+    if (event.code === 'KeyH') {
+        toggleCursor();
+    }
+
+    if (event.code === 'KeyM') {
+        toggleMirror();
+    }
+
+    if (event.code === 'KeyA') {
+        toggleAdditive();
+    }
+
+    if (event.code === 'KeyP') {
+        toggleParticle();
+    }
+
+    if (event.code === 'KeyS') {
+        toggleSpill();
+    }
+
+    if (event.code === 'Digit8') {
+        toggleBreakMe();
     }
 });
 

@@ -22,6 +22,11 @@
                             <span class="menu__input">Esc</span>
                         </li>
 
+                        <li class="menu__dropdown-option" data-menu-toggle-cpanel>
+                            <span>Toggle cPanel</span>
+                            <span class="menu__input">Space</span>
+                        </li>
+
                         <li class="menu__dropdown-option" data-menu-toggle-about>
                             <span>About</span>
                             <span class="menu__input">?</span>
@@ -73,17 +78,17 @@
                     Canvas
 
                     <ul class="menu__dropdown-options">
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-increase-divisions>
                             <span>Increase Divisions</span>
                             <span class="menu__input">.</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-decrease-divisions>
                             <span>Decrease Divisions</span>
                             <span class="menu__input">,</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-open-background-colour-picker>
                             <span>Background Colour</span>
                             <span class="menu__input">B</span>
                         </li>
@@ -94,17 +99,17 @@
                     Brush
 
                     <ul class="menu__dropdown-options">
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-increase-stroke-width>
                             <span>Increase Stroke</span>
-                            <span class="menu__input">^↑</span>
+                            <span class="menu__input">[</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-decrease-stroke-width>
                             <span>Decrease Stroke</span>
-                            <span class="menu__input">^↓</span>
+                            <span class="menu__input">]</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-open-stroke-colour-picker>
                             <span>Stroke Colour</span>
                             <span class="menu__input">C</span>
                         </li>
@@ -115,19 +120,14 @@
                     View
 
                     <ul class="menu__dropdown-options">
-                        <li class="menu__dropdown-option" data-menu-toggle-cpanel>
-                            <span>Toggle cPanel</span>
-                            <span class="menu__input">Space</span>
-                        </li>
-
                         <li class="menu__dropdown-option">
                             <span>Toggle Guides</span>
                             <span class="menu__input">G</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-toggle-cursor>
                             <span>Toggle Cursor</span>
-                            <span class="menu__input">0</span>
+                            <span class="menu__input">H</span>
                         </li>
                     </ul>
                 </li>
@@ -136,27 +136,27 @@
                     Modifier
 
                     <ul class="menu__dropdown-options">
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-toggle-mirror>
                             <span>Toggle Mirror</span>
                             <span class="menu__input">M</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-toggle-additive>
                             <span>Toggle Additive</span>
                             <span class="menu__input">A</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-toggle-particle>
                             <span>Toggle Particle</span>
                             <span class="menu__input">P</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-toggle-spill>
                             <span>Toggle Spill</span>
                             <span class="menu__input">S</span>
                         </li>
 
-                        <li class="menu__dropdown-option">
+                        <li class="menu__dropdown-option" data-menu-toggle-break-me>
                             <span>Break Me</span>
                             <span class="menu__input">*</span>
                         </li>
@@ -168,41 +168,41 @@
         <aside class="cpanel cpanel--hidden" data-cpanel>
             <div class="control-container">
                 <label for="divisions">divisions</label>
-                <input class="control" type="number" id="divisions" name="divisions" min="1" max="1000" value="12" data-cpanel-divisions>
+                <input class="control" type="number" id="divisions" name="divisions" min="1" max="1000" value="12" tabindex="-1" data-cpanel-divisions>
             </div>
 
             <div class="control-container">
                 <label for="angle">angle</label>
-                <input class="control" type="number" id="angle" name="angle" min="0" max="360" value="360" data-cpanel-angle>
+                <input class="control" type="number" id="angle" name="angle" min="0" max="360" value="360" tabindex="-1" data-cpanel-angle>
             </div>
 
             <div class="control-container">
                 <label for="backgroundColour">guide colour</label>
-                <input class="control--colour" type="color" id="guideColour" name="guideColour" value="#00FFFF" data-cpanel-guide-colour>
+                <input class="control--colour" type="color" id="guideColour" name="guideColour" value="#00FFFF" tabindex="-1" data-cpanel-guide-colour>
             </div>
 
             <div class="control-container">
                 <label for="backgroundColour">background colour</label>
-                <input class="control--colour" type="color" id="backgroundColour" name="backgroundColour" value="#FFFFFF" data-cpanel-background-colour>
+                <input class="control--colour" type="color" id="backgroundColour" name="backgroundColour" value="#FFFFFF" tabindex="-1" data-cpanel-background-colour>
             </div>
 
             <div class="control-container">
                 <label for="strokeWidth">stroke</label>
-                <input class="control" type="number" id="strokeWidth" name="strokeWidth" min="1" max="10" value="1" data-cpanel-stroke-width>
+                <input class="control" type="number" id="strokeWidth" name="strokeWidth" min="1" max="10" value="1" tabindex="-1"data-cpanel-stroke-width>
             </div>
 
             <div class="control-container">
                 <label for="strokeColour">stroke color</label>
-                <input class="control--colour" type="color" id="strokeColour" name="strokeColour" value="#000000" data-cpanel-stroke-colour>
+                <input class="control--colour" type="color" id="strokeColour" name="strokeColour" value="#000000" tabindex="-1" data-cpanel-stroke-colour>
             </div>
 
             <div class="control-container">
                 <label for="strokeOpacity">stroke opacity</label>
-                <input class="control" type="number" id="strokeOpacity" name="strokeOpacity" min="0" max="255" value="255" data-cpanel-stroke-opacity>
+                <input class="control" type="number" id="strokeOpacity" name="strokeOpacity" min="0" max="255" value="255" tabindex="-1" data-cpanel-stroke-opacity>
             </div>
         </aside>
 
-        <aside class="log log--hidden" data-log>
+        <aside class="log log--hidden" data-log tabindex="-1">
             <div class="log__wrapper" data-log-list>
             </div>
         </aside>
