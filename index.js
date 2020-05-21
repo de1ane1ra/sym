@@ -6,6 +6,7 @@ const context = canvas.getContext('2d');
 let canvasWidth = window.innerWidth;
 let canvasHeight = window.innerHeight;
 
+// Remove this in production
 if (!debug) {
     document.addEventListener('contextmenu', function(event) {
         event.preventDefault();
@@ -494,26 +495,24 @@ const update = function() {
         }
     }
 
+    context.beginPath();
     for (let i = 0; i < actions.length; i++) {
         for (let j = 0; j < divisions; j++) {
             context.rotate(radiansFromDegrees(angle));
-            
-            context.beginPath();
+        
             context.moveTo(actions[i].x, actions[i].y);
             context.lineTo(actions[i].px, actions[i].py);
-            context.stroke();
 
             if (mirrorMode) {
                 context.save();
                 context.scale(1, -1);
-                context.beginPath();
                 context.moveTo(actions[i].x, actions[i].y);
                 context.lineTo(actions[i].px, actions[i].py);
-                context.stroke();
                 context.restore();
             }
         }
     }
+    context.stroke();
 
     prevMouse.x = currentMouse.x;
     prevMouse.y = currentMouse.y;
