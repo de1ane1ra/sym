@@ -195,3 +195,9 @@ input:focus {
     text-align: center;
     padding: 4rem;
 }
+
+.mark {
+    fill: none;
+    stroke: var(--colour__dark);
+    stroke-width: 0.75px;
+}
