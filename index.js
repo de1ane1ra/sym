@@ -1,4 +1,4 @@
-// Remove this in production
+// TODO: Remove this in distributed versions
 let debug = false;
 
 const canvas = document.querySelector('[data-canvas]');
@@ -6,7 +6,7 @@ const context = canvas.getContext('2d');
 let canvasWidth = window.innerWidth;
 let canvasHeight = window.innerHeight;
 
-// Remove this in production
+// TODO: Remove this in distributed versions
 if (!debug) {
     document.addEventListener('contextmenu', function(event) {
         event.preventDefault();
@@ -152,6 +152,21 @@ menuStepBackward.addEventListener('click', function() {
 
 menuStepForward.addEventListener('click', function() {
      stepForward();
+});
+
+const clearActions = function() {
+    actions = [];
+    timmedActions = [];
+};
+
+const confirmAndStartNewCanvas = function() {
+    if (confirm('Creating a new canvas will erase your current canvas.\n\nThis action is irreversible.')) {
+        clearActions();
+    }
+}
+
+menuNew.addEventListener('click', function() {
+    confirmAndStartNewCanvas();
 });
 
 const downloadImage = function(data, filename, type) {
@@ -357,8 +372,7 @@ document.addEventListener('keydown', (event) => {
     }
 
     if (event.code === 'KeyN') {
-        actions = [];
-        timmedActions = [];
+        confirmAndStartNewCanvas();
     }
 
     if (event.code === 'KeyE') {
