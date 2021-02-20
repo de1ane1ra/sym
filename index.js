@@ -470,18 +470,21 @@ const setup = function() {
 const update = function() {
     requestAnimationFrame(update);
 
+    const halfCanvasX = canvasWidth / 2;
+    const halfCanvasY = canvasHeight / 2;
+
     if (!additiveMode) {
         context.fillStyle = controlBackgroundColour.value;
-        context.fillRect(0 - canvasWidth / 2, 0 - canvasHeight / 2, canvas.width, canvas.height);
+        context.fillRect(0 - halfCanvasX, 0 - halfCanvasY, canvas.width, canvas.height);
     }
 
     // This causes mayhem when divisions features a decimal value. I like it.
     if (particleMode && !isWholeNumber(divisions)) {
-        context.fillRect(0 - canvasWidth / 2, 0 - canvasHeight / 2, canvas.width, canvas.height);
+        context.fillRect(0 - halfCanvasX, 0 - halfCanvasY, canvas.width, canvas.height);
     }
 
     if (particleMode) {
-        context.clearRect(0 - canvasWidth / 2, 0 - canvasHeight / 2, canvasWidth, canvasHeight);
+        context.clearRect(0 - halfCanvasX, 0 - halfCanvasY, canvasWidth, canvasHeight);
     }
 
     divisions = controlDivisions.value;
